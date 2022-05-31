@@ -73,6 +73,7 @@
     "@blackglory/errors": "^2.2.1",
     "@blackglory/prelude": "^0.1.1",
     "@delight-rpc/protocol": "^2.2.0",
+    "extra-abort": "^0.1.2",
     "extra-promise": "^2.0.0",
     "return-style": "^1.0.0"
   },
