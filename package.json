@@ -54,12 +54,12 @@
     "delight-rpc": "^4.1.0",
     "eslint": "8.16.0",
     "extra-filesystem": "^0.4.2",
-    "extra-native-websocket": "^0.1.0",
+    "extra-native-websocket": "^0.2.0",
     "husky": "4",
     "jest": "^27.5.1",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
-    "rollup": "^2.75.3",
+    "rollup": "^2.75.4",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-terser": "^7.0.2",
     "standard-version": "^9.5.0",
@@ -78,6 +78,6 @@
   },
   "peerDependencies": {
     "delight-rpc": "^4.1.0",
-    "extra-native-websocket": "^0.1.0"
+    "extra-native-websocket": "^0.2.0"
   }
 }

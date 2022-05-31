@@ -2471,13 +2471,14 @@ extra-logger@^0.6.8:
     chalk "4"
     justypes "^2.0.0"
 
-extra-native-websocket@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/extra-native-websocket/-/extra-native-websocket-0.1.0.tgz#da0048671dbf4944023b354befc51a2d8f576f5b"
-  integrity sha512-Jkriagl4o8KvJybViT79Fiqj734WLK2B9aKWhwKRYaiuJQHTgnpYfSixZFGkVt+h4anyofUxhpG0c7ynwKOFJg==
+extra-native-websocket@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/extra-native-websocket/-/extra-native-websocket-0.2.0.tgz#ba64df9f8cfc8f932fa1e7f77af6aa2eae4aff1c"
+  integrity sha512-ln1MKOs8fUvWgXA0eqcHX6B2lyUjHU6PS1RfgYm8vxOI6QvWiD0ynlZVxqUjQGSQyOHb5gZdGH0EaG54ngWHpg==
   dependencies:
     "@blackglory/errors" "^2.2.1"
     "@blackglory/prelude" "^0.1.1"
+    "@blackglory/structures" "^0.5.1"
     extra-abort "^0.1.2"
     extra-promise "^2.0.0"
 
@@ -4897,10 +4898,10 @@ rollup-plugin-terser@^7.0.2:
     serialize-javascript "^4.0.0"
     terser "^5.0.0"
 
-rollup@^2.75.3:
-  version "2.75.3"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.75.3.tgz#11bd3e8ace526911feea8af17f2a286fbfdb4cf8"
-  integrity sha512-YA29fLU6MAYSaDxIQYrGGOcbXlDmG96h0krGGYObroezcQ0KgEPM3+7MtKD/qeuUbFuAJXvKZee5dA1dpwq1PQ==
+rollup@^2.75.4:
+  version "2.75.4"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.75.4.tgz#c3518c326c98e508b628a93015a03a276c331f22"
+  integrity sha512-JgZiJMJkKImMZJ8ZY1zU80Z2bA/TvrL/7D9qcBCrfl2bP+HUaIw0QHUroB4E3gBpFl6CRFM1YxGbuYGtdAswbQ==
   optionalDependencies:
     fsevents "~2.3.2"
 
