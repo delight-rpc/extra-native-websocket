@@ -54,7 +54,7 @@ export function createClient<IAPI extends object>(
 }
 
 export function createBatchClient(
-  socket: WebSocket
+  socket: ExtraNativeWebSocket
 , { expectedVersion, channel }: {
     expectedVersion?: `${number}.${number}.${number}`
     channel?: string
