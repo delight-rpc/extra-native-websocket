@@ -13,10 +13,10 @@ export function createServer<IAPI extends object>(
     ownPropsOnly?: boolean
   } = {}
 ): () => void {
-  socket.addEventListener('message', handler)
-  return () => socket.removeEventListener('message', handler)
+  const removeMessageListener = socket.on('message', listener)
+  return () => removeMessageListener()
 
-  async function handler(event: MessageEvent): Promise<void> {
+  async function listener(event: MessageEvent): Promise<void> {
     const request = getResult(() => JSON.parse(event.data))
     if (DelightRPC.isRequest(request) || DelightRPC.isBatchRequest(request)) {
       const response = await DelightRPC.createResponse(
