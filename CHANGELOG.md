@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/delight-rpc/extra-native-websocket/compare/v0.2.4...v0.3.0) (2022-06-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* It requires extra-native-websocket^0.3.1 now.
+
+* upgrade dependencies ([440065a](https://github.com/delight-rpc/extra-native-websocket/commit/440065acc8eb584767ce35e323f78d10b4569149))
+
 ### [0.2.4](https://github.com/delight-rpc/extra-native-websocket/compare/v0.2.3...v0.2.4) (2022-06-08)
 
 ### [0.2.3](https://github.com/delight-rpc/extra-native-websocket/compare/v0.2.2...v0.2.3) (2022-06-08)
