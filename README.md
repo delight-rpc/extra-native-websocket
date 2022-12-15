@@ -13,7 +13,7 @@ function createClient<IAPI extends object>(
   socket: ExtraNativeWebSocket
 , options?: {
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
-    expectedVersion?: `${number}.${number}.${number}`
+    expectedVersion?: string
     channel?: string
     timeout?: number
   }
@@ -25,7 +25,7 @@ function createClient<IAPI extends object>(
 function createBatchClient(
   socket: ExtraNativeWebSocket
 , options?: {
-    expectedVersion?: `${number}.${number}.${number}`
+    expectedVersion?: string
     channel?: string
     timeout?: number
   }
