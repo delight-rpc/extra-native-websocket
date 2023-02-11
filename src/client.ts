@@ -61,14 +61,14 @@ export function createClient<IAPI extends object>(
   }
 }
 
-export function createBatchClient<DataType>(
+export function createBatchClient(
   socket: ExtraNativeWebSocket
 , { expectedVersion, channel, timeout }: {
     expectedVersion?: string
     channel?: string
     timeout?: number
   } = {}
-): [client: DelightRPC.BatchClient<DataType>, close: () => void] {
+): [client: DelightRPC.BatchClient, close: () => void] {
   const pendings: Record<
     string
   , | Deferred<IError | IBatchResponse<unknown>>
