@@ -22,14 +22,14 @@ function createClient<IAPI extends object>(
 
 ### createBatchClient
 ```ts
-function createBatchClient(
+function createBatchClient<DataType>(
   socket: ExtraNativeWebSocket
 , options?: {
     expectedVersion?: string
     channel?: string
     timeout?: number
   }
-): [client: DelightRPC.BatchClient, close: () => void]
+): [client: DelightRPC.BatchClient<DataType>, close: () => void]
 ```
 
 ### createServer
