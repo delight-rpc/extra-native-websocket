@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.2](https://github.com/delight-rpc/extra-native-websocket/compare/v0.4.1...v0.4.2) (2023-02-11)
+
 ### [0.4.1](https://github.com/delight-rpc/extra-native-websocket/compare/v0.4.0...v0.4.1) (2023-02-05)
 
 ## [0.4.0](https://github.com/delight-rpc/extra-native-websocket/compare/v0.3.2...v0.4.0) (2022-12-15)
