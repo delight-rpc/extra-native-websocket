@@ -1,9 +1,10 @@
-import { Server, WebSocketServer } from 'ws'
-import { createServer } from '@src/server'
-import { createClient } from '@src/client'
+import { WebSocketServer } from 'ws'
+import { createServer } from '@src/server.js'
+import { createClient } from '@src/client.js'
 import { getErrorPromise } from 'return-style'
 import * as DelightRPCWebSocket from '@delight-rpc/websocket'
 import { ExtraNativeWebSocket } from 'extra-native-websocket'
+import { promisify } from 'extra-promise'
 
 interface IAPI {
   eval(code: string): Promise<unknown>
@@ -22,7 +23,7 @@ const api = {
 
 let server: WebSocketServer
 beforeEach(() => {
-  server = new Server({ port: 8080 })
+  server = new WebSocketServer({ port: 8080 })
   server.on('connection', socket => {
     const [client] = DelightRPCWebSocket.createClient(socket)
     const cancelServer = DelightRPCWebSocket.createServer<IAPI>({
@@ -32,8 +33,8 @@ beforeEach(() => {
     }, socket)
   })
 })
-afterEach(() => {
-  server.close()
+afterEach(async () => {
+  await promisify(server.close.bind(server))()
 })
 
 describe('createServer', () => {
@@ -48,6 +49,7 @@ describe('createServer', () => {
 
       expect(result).toBe('hello')
     } finally {
+      await wsClient.close()
       cancelServer()
     }
   })
@@ -64,6 +66,7 @@ describe('createServer', () => {
       expect(err).toBeInstanceOf(Error)
       expect(err!.message).toMatch('hello')
     } finally {
+      await wsClient.close()
       cancelServer()
     }
   })

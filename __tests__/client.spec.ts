@@ -1,8 +1,9 @@
-import { createClient } from '@src/client'
+import { createClient } from '@src/client.js'
 import { getErrorPromise } from 'return-style'
-import { Server, WebSocketServer } from 'ws'
+import { WebSocketServer } from 'ws'
 import * as DelightRPCWebSocket from '@delight-rpc/websocket'
 import { ExtraNativeWebSocket } from 'extra-native-websocket'
+import { promisify } from 'extra-promise'
 
 interface IAPI {
   echo(message: string): string
@@ -13,7 +14,7 @@ const SERVER_URL = 'ws://localhost:8080'
 
 let server: WebSocketServer
 beforeEach(() => {
-  server = new Server({ port: 8080 })
+  server = new WebSocketServer({ port: 8080 })
   server.on('connection', socket => {
     const cancelServer = DelightRPCWebSocket.createServer<IAPI>({
       echo(message) {
@@ -25,8 +26,8 @@ beforeEach(() => {
     }, socket)
   })
 })
-afterEach(() => {
-  server.close()
+afterEach(async () => {
+  await promisify(server.close.bind(server))()
 })
 
 describe('createClient', () => {
@@ -34,20 +35,28 @@ describe('createClient', () => {
     const wsClient = new ExtraNativeWebSocket(() => new WebSocket(SERVER_URL))
     await wsClient.connect()
 
-    const [client] = createClient<IAPI>(wsClient)
-    const result = await client.echo('hello')
+    try {
+      const [client] = createClient<IAPI>(wsClient)
+      const result = await client.echo('hello')
 
-    expect(result).toBe('hello')
+      expect(result).toBe('hello')
+    } finally {
+      await wsClient.close()
+    }
   })
 
   test('error', async () => {
     const wsClient = new ExtraNativeWebSocket(() => new WebSocket(SERVER_URL))
     await wsClient.connect()
 
-    const [client] = createClient<IAPI>(wsClient)
-    const err = await getErrorPromise(client.error('hello'))
+    try {
+      const [client] = createClient<IAPI>(wsClient)
+      const err = await getErrorPromise(client.error('hello'))
 
-    expect(err).toBeInstanceOf(Error)
-    expect(err!.message).toMatch('hello')
+      expect(err).toBeInstanceOf(Error)
+      expect(err!.message).toMatch('hello')
+    } finally {
+      await wsClient.close()
+    }
   })
 })
