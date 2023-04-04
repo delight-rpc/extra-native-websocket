@@ -1,11 +1,11 @@
 import * as DelightRPC from 'delight-rpc'
-import { isUndefined } from '@blackglory/prelude'
+import { isntUndefined, isUndefined } from '@blackglory/prelude'
 import { Deferred } from 'extra-promise'
 import { CustomError } from '@blackglory/errors'
 import { getResult } from 'return-style'
 import { IResponse, IError, IBatchResponse } from '@delight-rpc/protocol'
 import { ExtraNativeWebSocket } from 'extra-native-websocket'
-import { withAbortSignal, timeoutSignal } from 'extra-abort'
+import { withAbortSignal, raceAbortSignals, timeoutSignal } from 'extra-abort'
 
 export function createClient<IAPI extends object>(
   socket: ExtraNativeWebSocket
@@ -21,16 +21,22 @@ export function createClient<IAPI extends object>(
   const removeMessageListener = socket.on('message', listener)
 
   const client = DelightRPC.createClient<IAPI>(
-    async function send(request) {
+    async function send(request, signal) {
       const res = new Deferred<IResponse<unknown>>()
       pendings[request.id] = res
       try {
         socket.send(JSON.stringify(request))
-        if (isUndefined(timeout)) {
-          return await res
-        } else {
-          return await withAbortSignal(timeoutSignal(timeout), () => res)
-        }
+
+        const mergedSignal = raceAbortSignals([
+          isntUndefined(timeout) && timeoutSignal(timeout)
+        , signal
+        ])
+        mergedSignal.addEventListener('abort', () => {
+          const abort = DelightRPC.createAbort(request.id, channel)
+          socket.send(JSON.stringify(abort))
+        })
+
+        return await withAbortSignal(mergedSignal, () => res)
       } finally {
         delete pendings[request.id]
       }
@@ -86,11 +92,16 @@ export function createBatchClient(
       pendings[request.id] = res
       try {
         socket.send(JSON.stringify(request))
-        if (isUndefined(timeout)) {
-          return await res
-        } else {
-          return await withAbortSignal(timeoutSignal(timeout), () => res)
-        }
+
+        const mergedSignal = raceAbortSignals([
+          isntUndefined(timeout) && timeoutSignal(timeout)
+        ])
+        mergedSignal.addEventListener('abort', () => {
+          const abort = DelightRPC.createAbort(request.id, channel)
+          socket.send(JSON.stringify(abort))
+        })
+
+        return await withAbortSignal(mergedSignal, () => res)
       } finally {
         delete pendings[request.id]
       }
