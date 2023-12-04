@@ -14,7 +14,8 @@ interface IAPI {
 const SERVER_URL = 'ws://localhost:8080'
 
 let server: WebSocketServer
-beforeEach(() => {
+let wsClient: ExtraNativeWebSocket
+beforeEach(async () => {
   server = new WebSocketServer({ port: 8080 })
   server.on('connection', socket => {
     const cancelServer = DelightRPCWebSocket.createServer<IAPI>({
@@ -26,76 +27,53 @@ beforeEach(() => {
       }
     }, socket)
   })
+
+  wsClient = new ExtraNativeWebSocket(() => new WebSocket(SERVER_URL))
+  await wsClient.connect()
 })
 afterEach(async () => {
+  await wsClient.close()
+
   await promisify(server.close.bind(server))()
 })
 
 describe('createClient', () => {
   test('echo', async () => {
-    const wsClient = new ExtraNativeWebSocket(() => new WebSocket(SERVER_URL))
-    await wsClient.connect()
+    const [client] = createClient<IAPI>(wsClient)
+    const result = await client.echo('hello')
 
-    try {
-      const [client] = createClient<IAPI>(wsClient)
-      const result = await client.echo('hello')
-
-      expect(result).toBe('hello')
-    } finally {
-      await wsClient.close()
-    }
+    expect(result).toBe('hello')
   })
   
   test('echo (batch)', async () => {
-    const wsClient = new ExtraNativeWebSocket(() => new WebSocket(SERVER_URL))
-    await wsClient.connect()
+    const [client, close] = createBatchClient(wsClient)
+    const proxy = createBatchProxy<IAPI>()
 
-    try {
-      const [client, close] = createBatchClient(wsClient)
-      const proxy = createBatchProxy<IAPI>()
+    const result = await client.parallel(proxy.echo('hello'))
+    close()
 
-      const result = await client.parallel(proxy.echo('hello'))
-      close()
-
-      expect(result.length).toBe(1)
-      expect(result[0].unwrap()).toBe('hello')
-    } finally {
-      await wsClient.close()
-    }
+    expect(result.length).toBe(1)
+    expect(result[0].unwrap()).toBe('hello')
   })
 
   test('error', async () => {
-    const wsClient = new ExtraNativeWebSocket(() => new WebSocket(SERVER_URL))
-    await wsClient.connect()
+    const [client] = createClient<IAPI>(wsClient)
+    const err = await getErrorPromise(client.error('hello'))
 
-    try {
-      const [client] = createClient<IAPI>(wsClient)
-      const err = await getErrorPromise(client.error('hello'))
-
-      expect(err).toBeInstanceOf(Error)
-      expect(err!.message).toMatch('hello')
-    } finally {
-      await wsClient.close()
-    }
+    expect(err).toBeInstanceOf(Error)
+    expect(err!.message).toMatch('hello')
   })
 
   test('error (batch)', async () => {
-    const wsClient = new ExtraNativeWebSocket(() => new WebSocket(SERVER_URL))
-    await wsClient.connect()
+    const [client, close] = createBatchClient(wsClient)
+    const proxy = createBatchProxy<IAPI>()
 
-    try {
-      const [client, close] = createBatchClient(wsClient)
-      const proxy = createBatchProxy<IAPI>()
+    const result = await client.parallel(proxy.error('hello'))
+    close()
 
-      const result = await client.parallel(proxy.error('hello'))
-      close()
-
-      expect(result.length).toBe(1)
-      const err = result[0].unwrapErr()
-      expect(err).toBeInstanceOf(Error)
-      expect(err!.message).toMatch('hello')
-    } finally {
-      await wsClient.close()
-    }
+    expect(result.length).toBe(1)
+    const err = result[0].unwrapErr()
+    expect(err).toBeInstanceOf(Error)
+    expect(err!.message).toMatch('hello')
   })
 })
