@@ -58,6 +58,7 @@ describe('createClient', () => {
 
   test('error', async () => {
     const [client] = createClient<IAPI>(wsClient)
+
     const err = await getErrorPromise(client.error('hello'))
 
     expect(err).toBeInstanceOf(Error)
