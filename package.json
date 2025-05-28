@@ -45,7 +45,7 @@
     "delight-rpc": "^6.1.2",
     "eslint": "8.37.0",
     "extra-filesystem": "^0.5.0",
-    "extra-native-websocket": "^0.3.1",
+    "extra-native-websocket": "^0.4.1",
     "husky": "4",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
@@ -71,6 +71,6 @@
   },
   "peerDependencies": {
     "delight-rpc": "^5.0.0 || ^6.0.0",
-    "extra-native-websocket": "^0.3.1"
+    "extra-native-websocket": "^0.3.1 || ^0.4.0"
   }
 }
