@@ -11,7 +11,7 @@
   "types": "lib/index.d.ts",
   "sideEffects": false,
   "engines": {
-    "node": ">=16"
+    "node": ">=18.17.0"
   },
   "repository": "git@github.com:delight-rpc/extra-native-websocket.git",
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
