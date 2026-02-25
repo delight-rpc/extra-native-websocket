@@ -64,6 +64,7 @@
   "dependencies": {
     "@blackglory/errors": "^3.0.3",
     "@blackglory/prelude": "^0.4.0",
+    "@blackglory/structures": "^0.14.13",
     "@delight-rpc/protocol": "^4.1.1",
     "extra-abort": "^0.4.0",
     "extra-promise": "^7.0.1",
