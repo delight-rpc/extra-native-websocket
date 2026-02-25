@@ -52,6 +52,7 @@ afterEach(async () => {
 describe('createClient', () => {
   test('result', async () => {
     const [client] = createClient<IAPI>(wsClient)
+
     const result = await client.echo('hello')
 
     expect(result).toBe('hello')
@@ -74,7 +75,7 @@ describe('createClient', () => {
     const err = await getErrorPromise(client.error('hello'))
 
     expect(err).toBeInstanceOf(Error)
-    expect(err!.message).toMatch('hello')
+    expect(err?.message).toMatch('hello')
   })
 
   test('error (batch)', async () => {
@@ -87,7 +88,7 @@ describe('createClient', () => {
     expect(result.length).toBe(1)
     const err = result[0].unwrapErr()
     expect(err).toBeInstanceOf(Error)
-    expect(err!.message).toMatch('hello')
+    expect(err?.message).toMatch('hello')
   })
 
   test('abort', async () => {
