@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.5](https://github.com/delight-rpc/extra-native-websocket/compare/v0.6.4...v0.6.5) (2026-02-25)
+
+
+### Features
+
+* add support for delight-rpc@^7.0.0 ([1d64ad7](https://github.com/delight-rpc/extra-native-websocket/commit/1d64ad7fff9233b932dea86b4cf4e7cc8c32963a))
+
+
+### Bug Fixes
+
+* **server:** abort requests with channel ([c8408e5](https://github.com/delight-rpc/extra-native-websocket/commit/c8408e513683ebe9625b4c2632eab9472d2d3cbd))
+
 ### [0.6.4](https://github.com/delight-rpc/extra-native-websocket/compare/v0.6.3...v0.6.4) (2026-02-12)
 
 
