@@ -3,12 +3,15 @@ import { getErrorPromise } from 'return-style'
 import { WebSocketServer } from 'ws'
 import * as DelightRPCWebSocket from '@delight-rpc/websocket'
 import { ExtraNativeWebSocket } from 'extra-native-websocket'
-import { promisify } from 'extra-promise'
+import { delay, promisify } from 'extra-promise'
 import { createBatchProxy } from 'delight-rpc'
+import { AbortController, AbortError } from 'extra-abort'
+import { assert } from '@blackglory/errors'
 
 interface IAPI {
   echo(message: string): string
   error(message: string): never
+  loop(): never
 }
 
 const SERVER_URL = 'ws://localhost:8080'
@@ -25,6 +28,15 @@ beforeEach(async () => {
     , error(message) {
         throw new Error(message)
       }
+    , async loop(signal) {
+        assert(signal)
+
+        while (!signal.aborted) {
+          await delay(100)
+        }
+
+        throw signal.reason
+      }
     }, socket)
   })
 
@@ -38,14 +50,14 @@ afterEach(async () => {
 })
 
 describe('createClient', () => {
-  test('echo', async () => {
+  test('result', async () => {
     const [client] = createClient<IAPI>(wsClient)
     const result = await client.echo('hello')
 
     expect(result).toBe('hello')
   })
   
-  test('echo (batch)', async () => {
+  test('result (batch)', async () => {
     const [client, close] = createBatchClient(wsClient)
     const proxy = createBatchProxy<IAPI>()
 
@@ -76,5 +88,16 @@ describe('createClient', () => {
     const err = result[0].unwrapErr()
     expect(err).toBeInstanceOf(Error)
     expect(err!.message).toMatch('hello')
+  })
+
+  test('abort', async () => {
+    const [client] = createClient<IAPI>(wsClient)
+    const controller = new AbortController()
+
+    const promise = getErrorPromise(client.loop(controller.signal))
+    controller.abort()
+    const err = await promise
+
+    expect(err).toBeInstanceOf(AbortError)
   })
 })

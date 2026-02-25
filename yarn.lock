@@ -672,9 +672,9 @@
     "@blackglory/prelude" "^0.3.1"
 
 "@delight-rpc/websocket@^0.7.2":
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/@delight-rpc/websocket/-/websocket-0.7.2.tgz#2945ec80179cca6657290e780f35f5f6495ce31d"
-  integrity sha512-/zHlf2Mb9VVr5Ovc8jdUFkEG8CRvjRHGR3PaQRMeCJGGmBeWLY5fLWurvHiT73rEfcqXuYUx6XX5832g6J/gwA==
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/@delight-rpc/websocket/-/websocket-0.7.6.tgz#f9886681c79186ff55d089f318b55cc27150d336"
+  integrity sha512-mrmakGqqcR8xVNpYEihSs8C063ewQH6fBAaktDeCG2Yv+M1CqpkPi+/SeMsT6l++ARI3T/WKQW6wPB79utL/BA==
   dependencies:
     "@blackglory/errors" "^3.0.0"
     "@blackglory/prelude" "^0.3.1"
@@ -2644,6 +2644,13 @@ extra-rand@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/extra-rand/-/extra-rand-0.1.1.tgz#e75e71ec96eb2f9b47d2a3c6513b3fb042f05a45"
   integrity sha512-sDpJWzuKa1bTrVVG3dkCiNMt93NanphQIWhW4tUS9PDiA0KTZ+fzyS4Idw+7/lH5ZzxtOiHEJEnBWSN4gi8gyA==
+
+extra-tags@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/extra-tags/-/extra-tags-0.5.4.tgz#74e0d282fe881c95e58b82095eb1d0f76df89079"
+  integrity sha512-la5n78qvNOVaS16VVJvUkFcmlaLENOzN0DkTgm8YBYr3xgc2Yhap5brMmZrOE2WfP4cPQfxFBdSJQUuxHwrElw==
+  dependencies:
+    extra-utils "^5.16.0"
 
 extra-timers@^0.2.5:
   version "0.2.5"
